@@ -1,0 +1,46 @@
+#!/bin/zsh
+
+install_yay() {
+    git clone https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si --noconfirm
+    cd ..
+    rm yay -rf
+}
+
+install_norman() {
+    git clone https://github.com/norman-pkgs/norman.git
+    cd norman
+    ./AUTOINSTALL
+    cd ..
+    rm norman -rf
+}
+
+show_menu() {
+    exec 3>&1
+    dialogcommand='dialog --title "Package Menu" --checklist "Select packages you want to install." $(tput lines) $(tput cols) 50'
+    
+    IFS=","
+    while read manager package description
+    do
+       dialogcommand+=" \"$package\" $description \"off\""
+    done < $1
+    
+    dialogcommand+=' 2>&1 1>&3'
+    result=$(eval $dialogcommand)
+}
+
+[[ $(which yay) == "yay not found" ]] && install_yay
+[[ $(which norman) == "norman not found" ]] && install_norman
+[[ $(which autoinstall) == "autoinstall not found" ]] && install_norman
+
+show_menu pacman-packages.csv
+pacman_packages=$result
+show_menu aur-packages.csv
+aur_packages=$result
+show_menu norman-packages.csv
+norman_packages=$result
+
+echo $pacman_packages
+echo $aur_packages
+echo $norman_packages
