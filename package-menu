@@ -16,6 +16,10 @@ install_norman() {
     rm norman -rf
 }
 
+install_dialog() {
+    sudo pacman -S --noconfirm dialog
+}
+
 show_menu() {
     exec 3>&1
     dialogcommand='dialog --title "Package Menu" --checklist "Select packages you want to install." $(tput lines) $(tput cols) 50'
@@ -33,6 +37,7 @@ show_menu() {
 [[ $(which yay) == "yay not found" ]] && install_yay
 [[ $(which norman) == "norman not found" ]] && install_norman
 [[ $(which autoinstall) == "autoinstall not found" ]] && install_norman
+[[ $(which dialog) == "dialog not found" ]] && install_dialog
 
 show_menu pacman-packages.csv
 pacman_packages=$result
