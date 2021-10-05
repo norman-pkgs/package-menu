@@ -41,6 +41,6 @@ aur_packages=$result
 show_menu norman-packages.csv
 norman_packages=$result
 
-echo $pacman_packages
-echo $aur_packages
-echo $norman_packages
+sudo pacman -S --noconfirm $pacman_packages
+yay -S --noconfirm $aur_packages
+norman $norman_packages
