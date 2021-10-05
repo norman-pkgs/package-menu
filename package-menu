@@ -46,6 +46,6 @@ aur_packages=$result
 show_menu norman-packages.csv
 norman_packages=$result
 
-sudo pacman -S --noconfirm $pacman_packages
-yay -S --noconfirm $aur_packages
-norman $norman_packages
+echo $pacman_packages | xargs sudo pacman -S --noconfirm 
+echo $aur_packages | xargs yay -S --noconfirm
+echo $norman_packages | xargs norman
