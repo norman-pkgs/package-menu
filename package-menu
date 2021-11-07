@@ -25,7 +25,7 @@ show_menu() {
     dialogcommand='dialog --title "Package Menu" --checklist "Select packages you want to install." $(tput lines) $(tput cols) 50'
     
     IFS=","
-    while read manager package description
+    while read package description
     do
        dialogcommand+=" \"$package\" $description \"off\""
     done < $1
